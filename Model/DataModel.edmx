@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AirportModel.Store" Alias="Self" Provider="Npgsql" ProviderManifestToken="9.1.9" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="AirportModelStoreContainer">
+          <EntitySet Name="cta_aerolinea" EntityType="AirportModel.Store.cta_aerolinea" store:Type="Tables" Schema="public" />
+          <EntitySet Name="cta_avion" EntityType="AirportModel.Store.cta_avion" store:Type="Tables" Schema="public" />
+          <EntitySet Name="cta_pasajero" EntityType="AirportModel.Store.cta_pasajero" store:Type="Tables" Schema="public" />
+          <EntitySet Name="cta_vuelo" EntityType="AirportModel.Store.cta_vuelo" store:Type="Tables" Schema="public" />
+          <EntitySet Name="cta_vuelo_pasajero" EntityType="AirportModel.Store.cta_vuelo_pasajero" store:Type="Tables" Schema="public" />
+          <AssociationSet Name="fkcta_avion480055" Association="AirportModel.Store.fkcta_avion480055">
+            <End Role="cta_aerolinea" EntitySet="cta_aerolinea" />
+            <End Role="cta_avion" EntitySet="cta_avion" />
+          </AssociationSet>
+          <AssociationSet Name="fkcta_vuelo_545039" Association="AirportModel.Store.fkcta_vuelo_545039">
+            <End Role="cta_pasajero" EntitySet="cta_pasajero" />
+            <End Role="cta_vuelo_pasajero" EntitySet="cta_vuelo_pasajero" />
+          </AssociationSet>
+          <AssociationSet Name="fkcta_vuelo_775722" Association="AirportModel.Store.fkcta_vuelo_775722">
+            <End Role="cta_vuelo" EntitySet="cta_vuelo" />
+            <End Role="cta_vuelo_pasajero" EntitySet="cta_vuelo_pasajero" />
+          </AssociationSet>
+          <AssociationSet Name="fkcta_vuelo370068" Association="AirportModel.Store.fkcta_vuelo370068">
+            <End Role="cta_avion" EntitySet="cta_avion" />
+            <End Role="cta_vuelo" EntitySet="cta_vuelo" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="cta_aerolinea">
+          <Key>
+            <PropertyRef Name="cons_aerolinea" />
+          </Key>
+          <Property Name="cons_aerolinea" Type="numeric" Nullable="false" Scale="0" />
+          <Property Name="nombre" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="cta_avion">
+          <Key>
+            <PropertyRef Name="numero_serie" />
+          </Key>
+          <Property Name="numero_serie" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="nombre" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="cons_aerolinea" Type="numeric" Nullable="false" Scale="0" />
+        </EntityType>
+        <EntityType Name="cta_pasajero">
+          <Key>
+            <PropertyRef Name="cons_pasajero" />
+          </Key>
+          <Property Name="cons_pasajero" Type="numeric" Nullable="false" Scale="0" />
+          <Property Name="tipo_documento" Type="varchar" Nullable="false" MaxLength="30" />
+          <Property Name="documento" Type="varchar" Nullable="false" MaxLength="15" />
+          <Property Name="nombres" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="apellidos" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="cta_vuelo">
+          <Key>
+            <PropertyRef Name="cons_vuelo" />
+          </Key>
+          <Property Name="cons_vuelo" Type="numeric" Nullable="false" Scale="0" />
+          <Property Name="nombre" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="avion_numero_serie" Type="varchar" Nullable="false" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="cta_vuelo_pasajero">
+          <Key>
+            <PropertyRef Name="cons_vuelo" />
+            <PropertyRef Name="cons_pasajero" />
+          </Key>
+          <Property Name="cons_vuelo" Type="numeric" Nullable="false" Scale="0" />
+          <Property Name="cons_pasajero" Type="numeric" Nullable="false" Scale="0" />
+        </EntityType>
+        <Association Name="fkcta_avion480055">
+          <End Role="cta_aerolinea" Type="AirportModel.Store.cta_aerolinea" Multiplicity="1" />
+          <End Role="cta_avion" Type="AirportModel.Store.cta_avion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cta_aerolinea">
+              <PropertyRef Name="cons_aerolinea" />
+            </Principal>
+            <Dependent Role="cta_avion">
+              <PropertyRef Name="cons_aerolinea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkcta_vuelo_545039">
+          <End Role="cta_pasajero" Type="AirportModel.Store.cta_pasajero" Multiplicity="1" />
+          <End Role="cta_vuelo_pasajero" Type="AirportModel.Store.cta_vuelo_pasajero" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cta_pasajero">
+              <PropertyRef Name="cons_pasajero" />
+            </Principal>
+            <Dependent Role="cta_vuelo_pasajero">
+              <PropertyRef Name="cons_pasajero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkcta_vuelo_775722">
+          <End Role="cta_vuelo" Type="AirportModel.Store.cta_vuelo" Multiplicity="1" />
+          <End Role="cta_vuelo_pasajero" Type="AirportModel.Store.cta_vuelo_pasajero" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cta_vuelo">
+              <PropertyRef Name="cons_vuelo" />
+            </Principal>
+            <Dependent Role="cta_vuelo_pasajero">
+              <PropertyRef Name="cons_vuelo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkcta_vuelo370068">
+          <End Role="cta_avion" Type="AirportModel.Store.cta_avion" Multiplicity="1" />
+          <End Role="cta_vuelo" Type="AirportModel.Store.cta_vuelo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cta_avion">
+              <PropertyRef Name="numero_serie" />
+            </Principal>
+            <Dependent Role="cta_vuelo">
+              <PropertyRef Name="avion_numero_serie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AirportModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="AirportModelContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="cta_aerolinea" EntityType="AirportModel.cta_aerolinea" />
+          <EntitySet Name="cta_avion" EntityType="AirportModel.cta_avion" />
+          <EntitySet Name="cta_pasajero" EntityType="AirportModel.cta_pasajero" />
+          <EntitySet Name="cta_vuelo" EntityType="AirportModel.cta_vuelo" />
+          <AssociationSet Name="fkcta_avion480055" Association="AirportModel.fkcta_avion480055">
+            <End Role="cta_aerolinea" EntitySet="cta_aerolinea" />
+            <End Role="cta_avion" EntitySet="cta_avion" />
+          </AssociationSet>
+          <AssociationSet Name="fkcta_vuelo370068" Association="AirportModel.fkcta_vuelo370068">
+            <End Role="cta_avion" EntitySet="cta_avion" />
+            <End Role="cta_vuelo" EntitySet="cta_vuelo" />
+          </AssociationSet>
+          <AssociationSet Name="cta_vuelo_pasajero" Association="AirportModel.cta_vuelo_pasajero">
+            <End Role="cta_pasajero" EntitySet="cta_pasajero" />
+            <End Role="cta_vuelo" EntitySet="cta_vuelo" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="cta_aerolinea">
+          <Key>
+            <PropertyRef Name="cons_aerolinea" />
+          </Key>
+          <Property Name="cons_aerolinea" Type="Decimal" Nullable="false" Precision="19" Scale="0" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="cta_avion" Relationship="AirportModel.fkcta_avion480055" FromRole="cta_aerolinea" ToRole="cta_avion" />
+        </EntityType>
+        <EntityType Name="cta_avion">
+          <Key>
+            <PropertyRef Name="numero_serie" />
+          </Key>
+          <Property Name="numero_serie" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="cons_aerolinea" Type="Decimal" Nullable="false" Precision="19" Scale="0" />
+          <NavigationProperty Name="cta_aerolinea" Relationship="AirportModel.fkcta_avion480055" FromRole="cta_avion" ToRole="cta_aerolinea" />
+          <NavigationProperty Name="cta_vuelo" Relationship="AirportModel.fkcta_vuelo370068" FromRole="cta_avion" ToRole="cta_vuelo" />
+        </EntityType>
+        <EntityType Name="cta_pasajero">
+          <Key>
+            <PropertyRef Name="cons_pasajero" />
+          </Key>
+          <Property Name="cons_pasajero" Type="Decimal" Nullable="false" Precision="19" Scale="0" />
+          <Property Name="tipo_documento" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
+          <Property Name="documento" Type="String" Nullable="false" MaxLength="15" Unicode="true" FixedLength="false" />
+          <Property Name="nombres" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="apellidos" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="cta_vuelo" Relationship="AirportModel.cta_vuelo_pasajero" FromRole="cta_pasajero" ToRole="cta_vuelo" />
+        </EntityType>
+        <EntityType Name="cta_vuelo">
+          <Key>
+            <PropertyRef Name="cons_vuelo" />
+          </Key>
+          <Property Name="cons_vuelo" Type="Decimal" Nullable="false" Precision="19" Scale="0" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="avion_numero_serie" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="cta_avion" Relationship="AirportModel.fkcta_vuelo370068" FromRole="cta_vuelo" ToRole="cta_avion" />
+          <NavigationProperty Name="cta_pasajero" Relationship="AirportModel.cta_vuelo_pasajero" FromRole="cta_vuelo" ToRole="cta_pasajero" />
+        </EntityType>
+        <Association Name="fkcta_avion480055">
+          <End Role="cta_aerolinea" Type="AirportModel.cta_aerolinea" Multiplicity="1" />
+          <End Role="cta_avion" Type="AirportModel.cta_avion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cta_aerolinea">
+              <PropertyRef Name="cons_aerolinea" />
+            </Principal>
+            <Dependent Role="cta_avion">
+              <PropertyRef Name="cons_aerolinea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkcta_vuelo370068">
+          <End Role="cta_avion" Type="AirportModel.cta_avion" Multiplicity="1" />
+          <End Role="cta_vuelo" Type="AirportModel.cta_vuelo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cta_avion">
+              <PropertyRef Name="numero_serie" />
+            </Principal>
+            <Dependent Role="cta_vuelo">
+              <PropertyRef Name="avion_numero_serie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cta_vuelo_pasajero">
+          <End Role="cta_pasajero" Type="AirportModel.cta_pasajero" Multiplicity="*" />
+          <End Role="cta_vuelo" Type="AirportModel.cta_vuelo" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AirportModelStoreContainer" CdmEntityContainer="AirportModelContext">
+          <EntitySetMapping Name="cta_aerolinea">
+            <EntityTypeMapping TypeName="AirportModel.cta_aerolinea">
+              <MappingFragment StoreEntitySet="cta_aerolinea">
+                <ScalarProperty Name="cons_aerolinea" ColumnName="cons_aerolinea" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cta_avion">
+            <EntityTypeMapping TypeName="AirportModel.cta_avion">
+              <MappingFragment StoreEntitySet="cta_avion">
+                <ScalarProperty Name="numero_serie" ColumnName="numero_serie" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="cons_aerolinea" ColumnName="cons_aerolinea" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cta_pasajero">
+            <EntityTypeMapping TypeName="AirportModel.cta_pasajero">
+              <MappingFragment StoreEntitySet="cta_pasajero">
+                <ScalarProperty Name="cons_pasajero" ColumnName="cons_pasajero" />
+                <ScalarProperty Name="tipo_documento" ColumnName="tipo_documento" />
+                <ScalarProperty Name="documento" ColumnName="documento" />
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cta_vuelo">
+            <EntityTypeMapping TypeName="AirportModel.cta_vuelo">
+              <MappingFragment StoreEntitySet="cta_vuelo">
+                <ScalarProperty Name="cons_vuelo" ColumnName="cons_vuelo" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="avion_numero_serie" ColumnName="avion_numero_serie" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="cta_vuelo_pasajero" TypeName="AirportModel.cta_vuelo_pasajero" StoreEntitySet="cta_vuelo_pasajero">
+            <EndProperty Name="cta_pasajero">
+              <ScalarProperty Name="cons_pasajero" ColumnName="cons_pasajero" />
+            </EndProperty>
+            <EndProperty Name="cta_vuelo">
+              <ScalarProperty Name="cons_vuelo" ColumnName="cons_vuelo" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="DataModel">
+        <EntityTypeShape EntityType="AirportModel.cta_aerolinea" Width="1.5" PointX="0.75" PointY="1.125" Height="1.5956835937500002" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirportModel.cta_avion" Width="1.5" PointX="3" PointY="0.875" Height="1.9802864583333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirportModel.cta_pasajero" Width="1.5" PointX="3" PointY="3.875" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirportModel.cta_vuelo" Width="1.5" PointX="5.25" PointY="0.875" Height="1.9802864583333335" IsExpanded="true" />
+        <AssociationConnector Association="AirportModel.fkcta_avion480055" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="1.9228417968750002" />
+          <ConnectorPoint PointX="3" PointY="1.9228417968750002" />
+        </AssociationConnector>
+        <AssociationConnector Association="AirportModel.fkcta_vuelo370068" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="1.8651432291666668" />
+          <ConnectorPoint PointX="5.25" PointY="1.8651432291666668" />
+        </AssociationConnector>
+        <AssociationConnector Association="AirportModel.cta_vuelo_pasajero" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="4.9612939453125" />
+          <ConnectorPoint PointX="6" PointY="4.9612939453125" />
+          <ConnectorPoint PointX="6" PointY="2.8552864583333335" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
